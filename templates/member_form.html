@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block title %}{{ 'Edit' if member else 'Add' }} member{% endblock %}{% block heading %}{{ 'Edit member' if member else 'Add a member' }}{% endblock %}
+{% block content %}<div class="form-panel"><p class="muted">Enter the member’s information below.</p><form method="post" class="form-grid">
+<label>Full name *<input name="name" required value="{{ member.name if member else '' }}" placeholder="e.g. Aisha Khan"></label>
+<label>Phone number *<input name="phone" required value="{{ member.phone if member else '' }}" placeholder="10-digit phone number"></label>
+<label>Email<input type="email" name="email" value="{{ member.email if member else '' }}" placeholder="name@example.com"></label>
+<label>Gender<select name="gender"><option value="">Select</option>{% for g in ['Male','Female','Other'] %}<option {% if member and member.gender==g %}selected{% endif %}>{{ g }}</option>{% endfor %}</select></label>
+<label>Join date<input type="date" name="join_date" value="{{ member.join_date if member else today }}"></label>
+<label>Membership plan<select name="plan_id"><option value="">No plan</option>{% for p in plans %}<option value="{{ p.id }}" {% if member and member.plan_id==p.id %}selected{% endif %}>{{ p.name }} — {{ p.price|money }}</option>{% endfor %}</select></label>
+<label>Status<select name="status">{% for s in ['Active','Inactive','Paused'] %}<option {% if member and member.status==s %}selected{% elif not member and s=='Active' %}selected{% endif %}>{{ s }}</option>{% endfor %}</select></label>
+<label class="full">Notes<textarea name="notes" rows="3">{{ member.notes if member else '' }}</textarea></label>
+<div class="form-actions"><a class="btn secondary" href="{{ url_for('members') }}">Cancel</a><button class="btn primary">Save member</button></div></form></div>{% endblock %}

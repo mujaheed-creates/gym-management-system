@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}FitTrack{% endblock %} | Gym Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="{{ url_for('dashboard') }}"><span class="brand-mark">F</span><span>fittrack<small>GYM MANAGEMENT</small></span></a>
+    <div class="nav-label">WORKSPACE</div>
+    <nav>
+      <a class="{% if request.endpoint=='dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}"><span>▦</span> Overview</a>
+      <a class="{% if request.endpoint in ['members','add_member','edit_member'] %}active{% endif %}" href="{{ url_for('members') }}"><span>♙</span> Members</a>
+      <a class="{% if request.endpoint=='plans' %}active{% endif %}" href="{{ url_for('plans') }}"><span>◇</span> Membership plans</a>
+      <a class="{% if request.endpoint=='payments' %}active{% endif %}" href="{{ url_for('payments') }}"><span>₹</span> Payments</a>
+      <a class="{% if request.endpoint=='attendance' %}active{% endif %}" href="{{ url_for('attendance') }}"><span>◷</span> Attendance</a>
+      <a class="{% if request.endpoint=='trainers' %}active{% endif %}" href="{{ url_for('trainers') }}"><span>♟</span> Trainers</a>
+      <a class="{% if request.endpoint=='reports' %}active{% endif %}" href="{{ url_for('reports') }}"><span>▤</span> Reports</a>
+    </nav>
+    <div class="sidebar-bottom"><div class="avatar">A</div><div><b>Admin workspace</b><small>Local demo account</small></div></div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div><span class="eyebrow">FITTRACK / MANAGEMENT</span><h1>{% block heading %}Overview{% endblock %}</h1></div><div class="top-actions"><span class="today-pill">● &nbsp;System online</span><span class="date-pill">{{ today }}</span></div></header>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}{% for category,message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}{% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+    <footer>FitTrack Gym Manager <span>•</span> Local development edition</footer>
+  </main>
+</div>
+</body></html>
